@@ -7,10 +7,16 @@ export class Setting {
     // ! =============> second solution ===============>
     document.getElementById('start').addEventListener("click", _ => {
       this.startQuestion()
-      this.load()
     })
   }
 
+  load() {
+    $('#start').attr("disabled","disabled")
+    $('#loader').addClass('show')
+    $('.button').removeClass('show')
+    $('.star').removeClass('show')
+  }
+  
 async startQuestion() {
     const category = document.getElementById("category").value;
     // const difficulty =Array.from(document.getElementsByName('difficulty')).find((ele)=>{
@@ -20,12 +26,14 @@ async startQuestion() {
     const questionsNumbers = document.getElementById('amount').value;
 
     if (questionsNumbers > 0){
+      this.load()
       const result =  await this.getQuestions(questionsNumbers,category,difficulty)
       $('#setting').removeClass('show')
       $('#quiz').addClass('show')
       const quiz = new Quiz(result)
     }else {
       $('#alertNumber').fadeIn(1000)
+
     }
   }
 
@@ -35,10 +43,5 @@ async startQuestion() {
     return response.results;
   }
 
-  load() {
-    $('#start').attr("disabled","disabled")
-    $('#loader').addClass('show')
-    $('.button').removeClass('show')
-    $('.star').removeClass('show')
-  }
+
 }
